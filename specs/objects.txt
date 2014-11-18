@@ -1,0 +1,4 @@
+//shared objects (globals)
+HashMap* customers (hashNum)
+HashMap* categorys (hashString)
+int done

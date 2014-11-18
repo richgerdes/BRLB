@@ -1,0 +1,46 @@
+main
+-------
+done = 0
+read in customers
+for each line
+	line -> customer
+	customer -> hashtable<id,customer>
+	customer -> linkedlist<customer>
+read in categories
+for each line
+	line -> category
+	category -> queue<order>
+	queues -> hashtable<name,queue>
+read in database
+for each line
+	line -> order
+	queue <- hashtable<name,queue>
+	lock queue
+	order -> queue
+	realase queue
+1 -> done
+wait (queues)
+open file
+for each customer <- linkedlist<customer>
+	customer -> file
+close file
+-------
+
+queue
+-------
+while !done = 1
+	lock queue
+	order <- queue
+	relase queue
+	consumer <- hashtable<id,customer>
+	lock consumer
+	if(balance > price)
+		-- balance;
+		order -> completed
+	else
+		order -> failed
+	relase consumer
+------- 
+
+
+

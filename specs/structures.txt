@@ -1,0 +1,7 @@
+Node(void* value, Node* next)
+Queue(Node* start, Node* end) Protected
+HashMap(Node*[] buckets, void* hashfct)
+Customer(int id; double balance, char* name, Node* completed, Node* failed) Protected
+Order(char* title, double price, int customerId)
+
+

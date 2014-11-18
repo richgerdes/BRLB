@@ -1,0 +1,31 @@
+
+//create and destroy
+createNode(void* value)
+createHashtable(size, hashfunct)
+createQueue()
+createCustomer(name, id, balance )
+createOrder(id, title, price)
+
+destroyNode(Node*)
+destroyHashtable(Hashtable*)
+destroyQueue(Queue*)
+destroyCustomer(customer*)
+destroyOrder(order*)
+
+//hashing
+hashNumber(int) //returns number mod 10
+hashString(char*) //return 0-30 for {0-9a-z}
+
+//data storage and retrival
+hashTableAddCustomer(hashtable, customer) //hashNumber(consumer->id)
+hashTableAddQueue(hashtable, queue, name) //hashString(name)
+tableToQueue(hashtable) //removes values from hashtable and makes a Queue out of them
+QueueAdd(Queue, void* value) //add void* value to new node at end of queue
+
+QueueRemove(Queue)
+getCustomer(hashtable, id)
+getQueue(hashtable, name)
+
+//thread creation
+QueueThread(Queue) //for queue thread see pseudo code
+
