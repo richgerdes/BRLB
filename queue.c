@@ -94,6 +94,8 @@ int QPush(Queue* queue, void* data){
 	queue->last = n;
 	queue->count++;
 	
+	pthread_mutex_unlock(&(queue->lock));
+		
 	return 1;
 }
 

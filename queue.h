@@ -1,8 +1,8 @@
 #ifndef QUEUE
 #define QUEUE
-#include<stdio.h>
-#include<pthread.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
 
 typedef struct _qnode QNode;
 typedef struct _queue Queue;

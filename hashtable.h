@@ -1,7 +1,7 @@
 #ifndef HASHTABLE
 #define HASHTABLE
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct _htnode HTNode;
 typedef struct _hashtable Hashtable;
