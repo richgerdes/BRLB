@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-g -Wall
-DEPS = queue.h hashtable.h
-OBJ = hashtable_test.c queue.c hashtable.c
+DEPS = extras.h bookorder.h queue.h hashtable.h
+OBJ = main.c extras.c bookorder.c queue.c hashtable.c
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

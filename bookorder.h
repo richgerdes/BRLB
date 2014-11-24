@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct _customer Customer;
 typedef struct _onode ONode;
@@ -25,13 +26,13 @@ struct _onode{
 struct _order{
 	char* title;
 	double price;
-	int coustomer;
+	int customer;
 };
 
 
 Customer* CustomerCreate(int id, double balance, char* name);
 ONode* ONodeCreate(Order* order, ONode* next);
-Order* OrderCreate(char* title, double price, int coustomer);
+Order* OrderCreate(char* title, double price, int customer);
 
 void CustomerDestroy(Customer* c);
 void ONodeDestroy(ONode* n);
