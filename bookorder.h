@@ -34,7 +34,7 @@ struct _order{
 
 
 Customer* CustomerCreate(int id, double balance, char* name, char* address, char* state, char* zip);
-ONode* ONodeCreate(Order* order, ONode* next);s
+ONode* ONodeCreate(Order* order, ONode* next);
 Order* OrderCreate(char* title, double price, int customer);
 
 void CustomerDestroy(Customer* c);
