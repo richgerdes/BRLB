@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g -Wall
+CFLAGS=-g -Wall -pthread
 DEPS = extras.h bookorder.h queue.h hashtable.h
 OBJ = main.c extras.c bookorder.c queue.c hashtable.c
 
