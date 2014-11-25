@@ -13,6 +13,9 @@ struct _customer{
 	int id;
 	double balance;
 	char* name;
+	char* address;
+	char* state;
+	char* zip;
 	ONode* completed;
 	ONode* failed;
 	pthread_mutex_t lock;
@@ -30,7 +33,7 @@ struct _order{
 };
 
 
-Customer* CustomerCreate(int id, double balance, char* name);
+Customer* CustomerCreate(int id, double balance, char* name, char* address, char* state, char* zip);
 ONode* ONodeCreate(Order* order, ONode* next);
 Order* OrderCreate(char* title, double price, int customer);
 
