@@ -8,6 +8,10 @@ int cmpKeyInt(void* v, void* w){
 	return (*((int*) v) <  *((int*) w));
 }
 
+void FreeCustomer(void* _c){
+	CustomerDestroy((Customer*) _c);
+}
+
 int hashStr(void* v){
 	char* c = (char*) v;
 
@@ -27,3 +31,6 @@ int cmpKeyStr(void* v, void* w){
 	return (strcmp(v, w));
 }
 
+void FreeQueue(void* _q){
+	QDestroy((Queue*) _q);
+}

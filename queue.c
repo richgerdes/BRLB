@@ -83,7 +83,7 @@ int QPush(Queue* queue, void* data){
 		return 1;
 	}
 	
-	if(queue->last != NULL){
+	if(queue->last == NULL){
 		QNode* curr = queue->first;
 		while(curr->next != NULL)
 			curr = curr->next;
