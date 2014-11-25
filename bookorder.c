@@ -1,6 +1,6 @@
 #include "bookorder.h"
 
-Customer* CustomerCreate(int id, double balance, char* name){
+Customer* CustomerCreate(int id, double balance, char* name, char* address, char* state, char* zip){
 	Customer* c = (Customer*) malloc(sizeof(Customer));
 	if(c == NULL)
 		return NULL;
@@ -10,6 +10,15 @@ Customer* CustomerCreate(int id, double balance, char* name){
 	c->name = (char*) malloc(sizeof(char) * strlen(name));
 	memset(c->name,'\0',sizeof(char) * strlen(name));
 	memcpy(c->name, name, sizeof(char) * strlen(name));
+	c->address = (char*) malloc(sizeof(char) * strlen(address));
+	memset(c->address,'\0',sizeof(char) * strlen(address));
+	memcpy(c->address, address, sizeof(char) * strlen(address));
+	c->state = (char*) malloc(sizeof(char) * strlen(state));
+	memset(c->state,'\0',sizeof(char) * strlen(state));
+	memcpy(c->state, state, sizeof(char) * strlen(state));
+	c->zip = (char*) malloc(sizeof(char) * strlen(zip));
+	memset(c->zip,'\0',sizeof(char) * strlen(zip));
+	memcpy(c->zip, zip, sizeof(char) * strlen(zip));
 	c->completed = NULL;
 	c->failed = NULL;
 	pthread_mutex_init(&(c->lock), NULL);
