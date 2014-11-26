@@ -105,9 +105,9 @@ int main(int argc, char* argv[]){
 				HTAdd(customers,cus, ptr);
 				i = 0;
 			}
-			fclose ( file );
+			fclose (fp);
 		}else{
-			perror ( filename ); 
+			perror (filename1); 
 		}
 		//read in book orders
 		//	for each order
@@ -119,21 +119,35 @@ int main(int argc, char* argv[]){
 		if ( fp1 != NULL ){
 			char orders[1000]; 
 			char s[2] = "|";
-			int i = 0;
-			char *token;
+			int i = 0; int id;
+			double price;
+			char *token, *title, *categorie;
 			while(fgets( orders, sizeof orders, fp1 ) != NULL){
 				token = strtok(orders, s);
 				while( token != NULL ){
 					//printf( " %s\n", token );
+					if(i == 0){
+						title = token;
+					}else if(i == 1){
+						price = atof(token);
+					}else if(i == 2){
+						id = atoi(token);
+					}else if(i == 3){
+						categorie = token;
+					}
 					token = strtok(NULL, s);
 					i++;
 				}
 				i = 0;
 			}
-			fclose ( file );
+			fclose (fp1);
 		}else{
-			perror ( filename ); 
+			perror (filename2); 
 		}
+		//set finish flag
+		//wait for queues
+		//	pop thread in threads
+		//		pthread_join(thread);		
 		flag_finished = 1;
 		pthread_t *thread = QPop(threads);
 		
@@ -141,12 +155,7 @@ int main(int argc, char* argv[]){
 			pthread_join(*thread, NULL);
 			thread = QPop(threads);
 		}
-		
-		return 0;
-		//set finish flag
-		//wait for queues
-		//	pop thread in threads
-		//		pthread_join(thread);
 		//output data
 		//free objects
+		return 0;
 }
