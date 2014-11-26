@@ -72,10 +72,34 @@ int main(int argc, char* argv[]){
 		FILE *fp = fopen ( filename1, "r" );
 		if ( fp != NULL ){
 			char database[1000]; 
+			char s[2] = "|";
+			char *token;
+			int i = 0;
 			while(fgets( database, sizeof database, fp ) != NULL){
-				
-		
+				token = strtok(database, s);
+				while( token != NULL ){
+					//printf( " %s\n", token );
+					if(i == 0){
+					char *name = token;
+					printf("This is the name: %s\n", name);
+					}else if(i == 1){
+					int id = atoi(token);
+					printf("This is the id: %d\n", id);
+					}else if(i == 2){
+					double balance = atof(token);
+					printf("This is the balance: %f\n", balance );
+					}
+					token = strtok(NULL, s);
+					i++;
+				}
+				i = 0;
 			}
+			
+			fclose ( file );
+		}else{
+			perror ( filename ); 
+		}
+		
 		flag_finished = 1;
 		pthread_t *thread = QPop(threads);
 		
