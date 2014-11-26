@@ -135,6 +135,8 @@ int main(int argc, char* argv[]){
 			char s[2] = "|";
 			int i = 0; int id;
 			double price;
+			Order *order;
+			void* value;
 			char *token, *title, *categorie;
 			while(fgets( orders, sizeof orders, fp1 ) != NULL){
 				token = strtok(orders, s);
@@ -150,9 +152,12 @@ int main(int argc, char* argv[]){
 						categorie = token;
 					}
 					token = strtok(NULL, s);
-					i++;
+					i++; 
 				}
 				i = 0;
+				order = OrderCreate(title, price, id);
+				value = HTGet(orderQueues, categorie);
+				QPush((Queue*) value, order);
 			}
 			fclose (fp1);
 		}else{
