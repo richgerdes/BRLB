@@ -99,7 +99,7 @@ void* HTGet(Hashtable* ht, void* key){
 		return NULL;
 	}
 	
-	while(!(ht->cmpfct(curr->key,key))==0){
+	while(curr != NULL && (ht->cmpfct(curr->key,key)!=0)){
 		curr = curr->next;
 	}
 	
