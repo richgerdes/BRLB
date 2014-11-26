@@ -73,33 +73,65 @@ int main(int argc, char* argv[]){
 		if ( fp != NULL ){
 			char database[1000]; 
 			char s[2] = "|";
-			char *token;
+			char *token, *name, *address, *state, *zip;
 			int i = 0;
+			int* ptr;
+			int id;
+			double balance;
+			Customer *cus;
 			while(fgets( database, sizeof database, fp ) != NULL){
 				token = strtok(database, s);
 				while( token != NULL ){
 					//printf( " %s\n", token );
 					if(i == 0){
-					char *name = token;
-					printf("This is the name: %s\n", name);
+						name = token;
 					}else if(i == 1){
-					int id = atoi(token);
-					printf("This is the id: %d\n", id);
+						id = atoi(token);
+						ptr = id;
 					}else if(i == 2){
-					double balance = atof(token);
-					printf("This is the balance: %f\n", balance );
+						balance = atof(token);
+					}else if(i == 3){
+						address = token;
+					}else if(i == 4){
+						state = token;
+					}else if(i == 5){
+						zip = token;
 					}
+					token = strtok(NULL, s);
+					i++;
+				}
+				cus = CustomerCreate(id, balance, name, address, state, zip);
+				i = 0;
+			}
+			fclose ( file );
+		}else{
+			perror ( filename ); 
+		}
+		//read in book orders
+		//	for each order
+		//		make order
+		//		get correct queue
+		//		add order to queue
+		static const char filename2[] = "orders.txt";
+		FILE *fp1 = fopen ( filename2, "r" );
+		if ( fp1 != NULL ){
+			char orders[1000]; 
+			char s[2] = "|";
+			int i = 0;
+			char *token;
+			while(fgets( orders, sizeof orders, fp1 ) != NULL){
+				token = strtok(orders, s);
+				while( token != NULL ){
+					//printf( " %s\n", token );
 					token = strtok(NULL, s);
 					i++;
 				}
 				i = 0;
 			}
-			
 			fclose ( file );
 		}else{
 			perror ( filename ); 
 		}
-		
 		flag_finished = 1;
 		pthread_t *thread = QPop(threads);
 		
@@ -109,12 +141,6 @@ int main(int argc, char* argv[]){
 		}
 		
 		return 0;
-
-		//read in book orders
-		//	for each order
-		//		make order
-		//		get correct queue
-		//		add order to queue
 		//set finish flag
 		//wait for queues
 		//	pop thread in threads
