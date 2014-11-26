@@ -14,22 +14,36 @@ Hashtable* customers;
 int flag_finished;
 
 void* consumer(void* _vqueue){
-		//cast _vqueue into queue
-		printf("I am a thread\n");
-		while(!flag_finished){
-				usleep(1000);
-				//pop order from queue
-				//if order == null
-				//	continue;
-				//get customer
-				//if customer->balance > order->price
-				//	CustomerAddCompleted(customer, order)
-				//else
-				//	CustomerAddFailed(customer, order)
 
+	Queue* queue = (Queue*) _vqueue;
+	
+	printf("I am a thread\n");
+	while(!flag_finished){
+		//pop order from queue
+		void* _vorder = QPop(queue);
+		//if order == null
+		if(_vorder == NULL){
+			usleep(1000);
+			continue;
+		}
+		//get customer
+		Order* order = (Order*) _vorder;
+		int* iptr = malloc(sizeof(int));
+		*iptr = order->customer;
+		Customer* customer = (Customer*) HTGet(customers,iptr);
+		free(iptr);
+		if(customer == NULL){
+			usleep(1000);
+			continue;
+		}else if(customer->balance >= order->price){
+			CustomerAddCompleted(customer, order);
+		}else{	
+			CustomerAddFailed(customer, order);
 		}
 
-		return NULL;
+	}
+
+	return NULL;
 }
 
 int main(int argc, char* argv[]){
@@ -139,6 +153,7 @@ int main(int argc, char* argv[]){
 		
 		while(thread != NULL){
 			pthread_join(*thread, NULL);
+			free(thread);
 			thread = QPop(threads);
 		}
 		
