@@ -87,7 +87,8 @@ int main(int argc, char* argv[]){
 						name = token;
 					}else if(i == 1){
 						id = atoi(token);
-						ptr = id;
+						ptr = malloc(sizeof(int));
+						*ptr = id;
 					}else if(i == 2){
 						balance = atof(token);
 					}else if(i == 3){
@@ -101,6 +102,7 @@ int main(int argc, char* argv[]){
 					i++;
 				}
 				cus = CustomerCreate(id, balance, name, address, state, zip);
+				HTAdd(customers,cus, ptr);
 				i = 0;
 			}
 			fclose ( file );
