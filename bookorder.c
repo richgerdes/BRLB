@@ -57,6 +57,14 @@ void CustomerDestroy(Customer* c){
 		return;
 		
 	free(c->name);
+	c->name = NULL;
+	free(c->address);
+	c->address = NULL;
+	free(c->state);
+	c->state = NULL;
+	free(c->zip);
+	c->zip = NULL;
+	
 	c->id = 0;
 	c->balance = 0;
 	ONodeDestroy(c->completed);
@@ -64,6 +72,8 @@ void CustomerDestroy(Customer* c){
 	ONodeDestroy(c->failed);
 	c->failed = NULL;
 	pthread_mutex_destroy(&(c->lock));
+	
+	free(c);
 	
 }
 

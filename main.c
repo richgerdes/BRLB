@@ -172,5 +172,8 @@ int main(int argc, char* argv[]){
 		}
 		//output data
 		//free objects
+		HTDestroy(customers);
+		HTDestroy(orderQueues);
+		QDestroy(threads);
 		return 0;
 }

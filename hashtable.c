@@ -31,17 +31,20 @@ Hashtable* HTCreate(int size, HashFct hashfct, FreeFct freefct, CmpFct cmpfct){
 	return ht;
 }
 
-void HTNodeDestroy(HTNode* node, void* freefct){
+void HTNodeDestroy(HTNode* node, FreeFct freefct){
 	if(node == NULL)
 		return;
 	
+	freefct(node->value);
 	node->value = NULL;
 	node->next = NULL;
+	if(node->key != NULL)
+		free(node->key);
 	
 	free(node);
 }
 
-void HTNodeDestroyR(HTNode* node, void* freefct){
+void HTNodeDestroyR(HTNode* node, FreeFct freefct){
 	if(node == NULL)
 		return;
 	
@@ -57,7 +60,7 @@ void HTDestroy(Hashtable* ht){
 	
 	int i = 0;
 	for(i = 0; i < ht->size; i++){
-		HTNodeDestroy(ht->nodes[i], ht->freefct);
+		HTNodeDestroyR(ht->nodes[i], ht->freefct);
 		ht->nodes[i] = NULL;
 	}
 	
@@ -79,7 +82,7 @@ void HTAdd(Hashtable* ht, void* value, void* key){
 		return;
 	}
 	
-	while(!(ht->cmpfct(curr->key,key))==0){
+	while(curr!= NULL && !(ht->cmpfct(curr->key,key))==0){
 		curr = curr->next;
 	}
 	
@@ -87,7 +90,6 @@ void HTAdd(Hashtable* ht, void* value, void* key){
 		ht->nodes[i] = HTNodeCreate(key,value,ht->nodes[i]);
 		return;
 	}
-	
 }
 
 void* HTGet(Hashtable* ht, void* key){

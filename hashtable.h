@@ -27,8 +27,8 @@ struct _hashtable{
 HTNode* HTNodeCreate(void* key, void* value, HTNode* next);
 Hashtable* HTCreate(int size, HashFct hashfct, FreeFct freefct, CmpFct cmpfct);
 
-void HTNodeDestroy(HTNode* node, void* freefct);
-void HTNodeDestroyR(HTNode* node, void* freefct);
+void HTNodeDestroy(HTNode* node, FreeFct freefct);
+void HTNodeDestroyR(HTNode* node, FreeFct freefct);
 void HTDestroy(Hashtable* ht);
 
 void HTAdd(Hashtable* ht, void* value, void* key);
