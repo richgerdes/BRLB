@@ -29,6 +29,7 @@ struct _onode{
 struct _order{
 	char* title;
 	double price;
+	double remaining;
 	int customer;
 };
 

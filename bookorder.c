@@ -46,6 +46,7 @@ Order* OrderCreate(char* title, double price, int customer){
 	memset(o->title,'\0',sizeof(char) * strlen(title));
 	memcpy(o->title, title, sizeof(char) * strlen(title));
 	o->price = price;
+	o->remaining = 0;
 	o->customer = customer;
 	
 	return o;
@@ -96,6 +97,7 @@ void OrderDestroy(Order* o){
 	
 	free(o->title);
 	o->price = 0;
+	o->remaining = 0;
 	o->customer = 0;
 	free(o);
 }
@@ -108,6 +110,9 @@ void CustomerAddCompleted(Customer* c, Order* o){
 	ONode* new = ONodeCreate(o,c->completed);
 	if(new != NULL)
 		c->completed = new;
+		
+	c->balance -= o->price;
+	o->remaining = c->balance;
 	
 	pthread_mutex_unlock(&(c->lock));
 }
@@ -120,6 +125,8 @@ void CustomerAddFailed(Customer* c, Order* o){
 	ONode* new = ONodeCreate(o,c->failed);
 	if(new != NULL)
 		c->failed = new;
+		
+	o->remaining = c->balance;
 	
 	pthread_mutex_unlock(&(c->lock));
 }

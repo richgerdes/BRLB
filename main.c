@@ -17,7 +17,7 @@ void* consumer(void* _vqueue){
 
 	Queue* queue = (Queue*) _vqueue;
 	
-	printf("I am a thread\n");
+	//printf("I am a thread\n");
 	while(1){
 		//pop order from queue
 		void* _vorder = QPop(queue);
@@ -39,10 +39,9 @@ void* consumer(void* _vqueue){
 			continue;
 		}else if(customer->balance >= order->price){
 			CustomerAddCompleted(customer, order);
-		}else{	
+		}else{
 			CustomerAddFailed(customer, order);
 		}
-		printf("pop\n");
 	}
 
 	return NULL;
@@ -185,6 +184,43 @@ int main(int argc, char* argv[]){
 			thread = QPop(threads);
 		}
 		//output data
+		
+		LLNode* curr = HTDumpList(customers);
+		while(curr != NULL){
+			Customer* cus = curr->value;
+			if(cus == NULL){
+				curr = curr->next;
+				continue;
+			}
+			printf("=== BEGIN CUSTOMER INFO ===\n");
+			printf("### BALANCE ###\n");
+			printf("Customer name: %s\n", cus->name);
+			printf("Customer ID number: %d\n", cus->id);
+			printf("Remaining credit balance after all purchases (a dollar amount): %.2f\n", cus->balance);
+			printf("### SUCCESSFUL ORDERS ###\n");
+			
+			ONode* ocurr = cus->completed;
+			while(ocurr!=NULL){
+				Order* order = ocurr->order;
+				printf("%s|%.2f|%.2f\n",order->title, order->price, order->remaining);
+				ocurr = ocurr->next;
+			}
+			
+			printf("### REJECTED ORDERS ###\n");
+			
+			ocurr = cus->failed;
+			while(ocurr!=NULL){
+				Order* order = ocurr->order;
+				printf("%s|%.2f\n",order->title, order->price);
+				ocurr = ocurr->next;
+			}
+			
+			printf("=== END CUSTOMER INFO ===\n");
+			
+			curr = curr->next;
+			if(curr != NULL)
+				printf("\n");
+		}
 		
 		//free objects
 		HTDestroy(customers);
