@@ -85,6 +85,8 @@ void ONodeDestroy(ONode* n){
 	n->order = NULL;
 	ONodeDestroy(n->next);
 	n->next = NULL;
+	OrderDestroy(n->order);
+	n->order = NULL;
 	free(n);
 }
 
@@ -95,6 +97,7 @@ void OrderDestroy(Order* o){
 	free(o->title);
 	o->price = 0;
 	o->customer = 0;
+	free(o);
 }
 
  //adds new onode to completed list

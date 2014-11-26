@@ -18,11 +18,13 @@ void* consumer(void* _vqueue){
 	Queue* queue = (Queue*) _vqueue;
 	
 	printf("I am a thread\n");
-	while(!flag_finished){
+	while(1){
 		//pop order from queue
 		void* _vorder = QPop(queue);
 		//if order == null
 		if(_vorder == NULL){
+			if(flag_finished)
+				break;
 			usleep(1000);
 			continue;
 		}
@@ -40,7 +42,7 @@ void* consumer(void* _vqueue){
 		}else{	
 			CustomerAddFailed(customer, order);
 		}
-
+		printf("pop\n");
 	}
 
 	return NULL;
@@ -65,11 +67,16 @@ int main(int argc, char* argv[]){
 		static const char filename[] = "categories.txt";
 		FILE *file = fopen ( filename, "r" );
 		if ( file != NULL ){
-			char categorie[1000]; 
-			while(fgets( categorie, sizeof categorie, file ) != NULL){
+			char buff[1000]; 
+			char* categorie;
+			while(fgets( buff, sizeof buff, file ) != NULL){
 				//fputs (categorie, stdout );
+				categorie = strtok(buff, "\r");
+				char* key = malloc(sizeof(char) * strlen(categorie) + 1);
+				memset(key, 0, sizeof(char) * (strlen(categorie) + 1));
+				memcpy(key, categorie, sizeof(char) * strlen(categorie));
 				Queue *q = QCreate(20);
-				HTAdd(orderQueues, q , categorie);
+				HTAdd(orderQueues, q , key);
 				pthread_t* thread = malloc(sizeof(pthread_t));
 				pthread_create(thread, NULL, &consumer, q);
 				QPush(threads, thread);
@@ -132,7 +139,7 @@ int main(int argc, char* argv[]){
 		FILE *fp1 = fopen ( filename2, "r" );
 		if ( fp1 != NULL ){
 			char orders[1000]; 
-			char s[2] = "|";
+			char s[3] = "|\r";
 			int i = 0; int id;
 			double price;
 			Order *order;
@@ -157,7 +164,9 @@ int main(int argc, char* argv[]){
 				i = 0;
 				order = OrderCreate(title, price, id);
 				value = HTGet(orderQueues, categorie);
-				QPush((Queue*) value, order);
+				if(value != NULL){
+					QPush((Queue*) value, order);
+				}
 			}
 			fclose (fp1);
 		}else{
@@ -176,6 +185,7 @@ int main(int argc, char* argv[]){
 			thread = QPop(threads);
 		}
 		//output data
+		
 		//free objects
 		HTDestroy(customers);
 		HTDestroy(orderQueues);

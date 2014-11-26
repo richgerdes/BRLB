@@ -74,13 +74,15 @@ void HTAdd(Hashtable* ht, void* value, void* key){
 	int i = ht->hashfct(key);
 	
 	HTNode* curr = ht->nodes[i];
-	
 	if(curr == NULL){
 		ht->nodes[i] = HTNodeCreate(key,value,NULL);
 		return;
 	}
 	
-	while(curr != NULL && (ht->cmpfct(curr->key,key)!=0)){
+	while(curr != NULL){
+		//printf("'%s' == '%s'\n",(char*)curr->key, (char*)key);
+		if(ht->cmpfct(curr->key, key) == 0)
+			break;
 		curr = curr->next;
 	}
 	
@@ -93,13 +95,17 @@ void HTAdd(Hashtable* ht, void* value, void* key){
 void* HTGet(Hashtable* ht, void* key){
 	int i = ht->hashfct(key);
 	
+	//printf("%s",(char*)key);
 	HTNode* curr = ht->nodes[i];
 	
 	if(curr == NULL){
 		return NULL;
 	}
 	
-	while(curr != NULL && (ht->cmpfct(curr->key,key)!=0)){
+	while(curr != NULL){
+		//printf("'%s' == '%s'\n",(char*)curr->key, (char*)key);
+		if(ht->cmpfct(curr->key, key) == 0)
+			break;
 		curr = curr->next;
 	}
 	
