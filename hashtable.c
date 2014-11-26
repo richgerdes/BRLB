@@ -38,6 +38,7 @@ void HTNodeDestroy(HTNode* node, FreeFct freefct){
 	freefct(node->value);
 	node->value = NULL;
 	node->next = NULL;
+	free(node->key);
 	
 	free(node);
 }

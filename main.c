@@ -25,6 +25,7 @@ void* consumer(void* _vqueue){
 		if(_vorder == NULL){
 			if(flag_finished)
 				break;
+			
 			usleep(1000);
 			continue;
 		}
@@ -164,7 +165,12 @@ int main(int argc, char* argv[]){
 				order = OrderCreate(title, price, id);
 				value = HTGet(orderQueues, categorie);
 				if(value != NULL){
-					QPush((Queue*) value, order);
+					if(!QPush((Queue*) value, order)){
+						printf("Producer waiting. A queue is full");
+					}
+					while(!QPush((Queue*) value, order)){
+						usleep(1000);
+					}
 				}
 			}
 			fclose (fp1);
@@ -202,7 +208,8 @@ int main(int argc, char* argv[]){
 			ONode* ocurr = cus->completed;
 			while(ocurr!=NULL){
 				Order* order = ocurr->order;
-				printf("%s|%.2f|%.2f\n",order->title, order->price, order->remaining);
+				if(order != NULL);
+					printf("%s|%.2f|%.2f\n",order->title, order->price, order->remaining);
 				ocurr = ocurr->next;
 			}
 			
@@ -211,13 +218,15 @@ int main(int argc, char* argv[]){
 			ocurr = cus->failed;
 			while(ocurr!=NULL){
 				Order* order = ocurr->order;
-				printf("%s|%.2f\n",order->title, order->price);
+				if(order != NULL);
+					printf("%s|%.2f\n",order->title, order->price);
 				ocurr = ocurr->next;
 			}
 			
 			printf("=== END CUSTOMER INFO ===\n");
-			
+			LLNode* tmp = curr;
 			curr = curr->next;
+			free(tmp);
 			if(curr != NULL)
 				printf("\n");
 		}
