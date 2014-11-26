@@ -80,7 +80,7 @@ void HTAdd(Hashtable* ht, void* value, void* key){
 		return;
 	}
 	
-	while(curr!= NULL && !(ht->cmpfct(curr->key,key))==0){
+	while(curr != NULL && (ht->cmpfct(curr->key,key)!=0)){
 		curr = curr->next;
 	}
 	
