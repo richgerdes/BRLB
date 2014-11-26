@@ -167,9 +167,9 @@ int main(int argc, char* argv[]){
 				if(value != NULL){
 					if(!QPush((Queue*) value, order)){
 						printf("Producer waiting. A queue is full");
-					}
-					while(!QPush((Queue*) value, order)){
-						usleep(1000);
+						while(!QPush((Queue*) value, order)){
+							usleep(1000);
+						}
 					}
 				}
 			}
