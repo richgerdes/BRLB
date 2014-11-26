@@ -9,5 +9,14 @@ OBJ = main.c extras.c bookorder.c queue.c hashtable.c
 bookorder: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 	
+ht_test: ht_test.c hashtable.c
+	$(CC) -o $@ $^ $(CFLAGS)
+	
+hashtable_test: hashtable_test.c hashtable.c
+	$(CC) -o $@ $^ $(CFLAGS)
+	
+queue_test: queue_test.c hashtable.c
+	$(CC) -o $@ $^ $(CFLAGS)
+	
 clean:
 	rm -f $(ODIR)/*.o *~ bookorder $(INCDIR)/*~ 

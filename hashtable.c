@@ -120,8 +120,8 @@ LLNode* HTDumpList(Hashtable* ht){
 		HTNode* n = ht->nodes[i];
 		while(n != NULL){
 			LLNode* new = malloc(sizeof(LLNode));
-			new->next = head;
 			new->value = n->value;
+			new->next = head;
 			head = new;
 			n = n->next;
 		}
