@@ -38,8 +38,6 @@ void HTNodeDestroy(HTNode* node, FreeFct freefct){
 	freefct(node->value);
 	node->value = NULL;
 	node->next = NULL;
-	if(node->key != NULL)
-		free(node->key);
 	
 	free(node);
 }
@@ -112,3 +110,23 @@ void* HTGet(Hashtable* ht, void* key){
 	return curr->value;
 }
 
+LLNode* HTDumpList(Hashtable* ht){
+	if(ht == NULL)
+		return NULL;
+		
+	int i = 0;
+	LLNode* head = NULL;
+	for(i = 0; i < ht->size; i++){
+		HTNode* n = ht->nodes[i];
+		while(n != NULL){
+			LLNode* new = malloc(sizeof(LLNode));
+			new->next = head;
+			new->value = n->value;
+			head = new;
+			n = n->next;
+		}
+	}
+	
+	return head;
+	
+}
