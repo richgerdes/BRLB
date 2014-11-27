@@ -16,7 +16,7 @@ int flag_finished;
 void* consumer(void* _vqueue){
 
 	Queue* queue = (Queue*) _vqueue;
-	
+	int waited  =0;
 	//printf("I am a thread\n");
 	while(1){
 		//pop order from queue
@@ -25,9 +25,16 @@ void* consumer(void* _vqueue){
 		if(_vorder == NULL){
 			if(flag_finished)
 				break;
-			
+			if(!waited){
+				printf("Consumer waiting. Queue Empty.\n");
+				waited = 1;
+			}
 			usleep(1000);
 			continue;
+		}
+		if(waited){
+			printf("Consumer Continuing.\n");
+			waited = 0;
 		}
 		//get customer
 		Order* order = (Order*) _vorder;
@@ -166,10 +173,11 @@ int main(int argc, char* argv[]){
 				value = HTGet(orderQueues, categorie);
 				if(value != NULL){
 					if(!QPush((Queue*) value, order)){
-						printf("Producer waiting. A queue is full");
+						printf("Producer waiting. A queue is full\n");
 						while(!QPush((Queue*) value, order)){
 							usleep(1000);
 						}
+						printf("Producer Continuing.\n");
 					}
 				}
 			}
