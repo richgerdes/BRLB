@@ -146,7 +146,7 @@ int main(int argc, char* argv[]){
 		FILE *fp1 = fopen ( filename2, "r" );
 		if ( fp1 != NULL ){
 			char orders[1000]; 
-			char s[3] = "|\r";
+			char s[3] = "|\r\n";
 			int i = 0; int id;
 			double price;
 			Order *order;
