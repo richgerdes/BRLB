@@ -198,7 +198,7 @@ int main(int argc, char* argv[]){
 			thread = QPop(threads);
 		}
 		//output data
-		
+		double revenue = 0;
 		LLNode* curr = HTDumpList(customers);
 		while(curr != NULL){
 			Customer* cus = curr->value;
@@ -216,8 +216,10 @@ int main(int argc, char* argv[]){
 			ONode* ocurr = cus->completed;
 			while(ocurr!=NULL){
 				Order* order = ocurr->order;
-				if(order != NULL);
+				if(order != NULL){
 					printf("%s|%.2f|%.2f\n",order->title, order->price, order->remaining);
+					revenue += order->price;
+				}
 				ocurr = ocurr->next;
 			}
 			
@@ -226,7 +228,7 @@ int main(int argc, char* argv[]){
 			ocurr = cus->failed;
 			while(ocurr!=NULL){
 				Order* order = ocurr->order;
-				if(order != NULL);
+				if(order != NULL)
 					printf("%s|%.2f\n",order->title, order->price);
 				ocurr = ocurr->next;
 			}
@@ -238,6 +240,8 @@ int main(int argc, char* argv[]){
 			if(curr != NULL)
 				printf("\n");
 		}
+		
+		printf("\nTotal Revenue Gained: %.2f\n\n",revenue);
 		
 		//free objects
 		HTDestroy(customers);
